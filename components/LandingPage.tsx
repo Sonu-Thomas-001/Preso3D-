@@ -100,7 +100,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onOpenDeck }) => {
                   <h2 className="text-3xl font-black text-slate-900 mb-2">Recent Projects</h2>
                   <p className="text-slate-500">Pick up where you left off or start something new.</p>
                </div>
-               <a href="#" className="text-indigo-600 font-bold hover:underline hidden md:block">View all projects -></a>
+               <a href="#" className="text-indigo-600 font-bold hover:underline hidden md:block">View all projects &rarr;</a>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
