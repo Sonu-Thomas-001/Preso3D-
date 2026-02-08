@@ -146,9 +146,10 @@ const App: React.FC = () => {
       // Only apply scaling if presenting AND we are NOT on the first slide (index 0)
       if (isPresenting && slideIndex !== 0) {
         // Calculate scale based on a reference width of 1280px.
-        // We apply a boost (1.35x) to ensure text is large and readable on projectors/screens.
+        // We apply a boost (1.15x) to ensure text is large and readable on projectors/screens.
+        // Reduced from 1.35x to avoid content cutoff.
         const referenceWidth = 1280;
-        const scale = (window.innerWidth / referenceWidth) * 1.35;
+        const scale = (window.innerWidth / referenceWidth) * 1.10;
         // Clamp minimum scale to prevent it becoming too small
         const finalScale = Math.max(0.8, scale);
         document.documentElement.style.fontSize = `${finalScale * 100}%`;

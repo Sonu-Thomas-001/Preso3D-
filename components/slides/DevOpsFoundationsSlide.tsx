@@ -25,7 +25,7 @@ const DevOpsFoundationsSlide: React.FC<Props> = ({ isPresenting }) => {
       <div className="flex h-full items-center gap-6 relative z-10 pb-2 overflow-hidden">
         
         {/* Left Column: Text Cards */}
-        <div className="w-[65%] flex flex-col gap-2 justify-center h-full">
+        <div className="w-[55%] flex flex-col gap-2 justify-center h-full">
              <motion.div 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -67,16 +67,16 @@ const DevOpsFoundationsSlide: React.FC<Props> = ({ isPresenting }) => {
         </div>
 
         {/* Right Column: Illustration with depth */}
-        <div className="w-[35%] h-full flex items-center justify-center relative">
+        <div className="w-[45%] h-full flex items-center justify-center relative">
              {/* Abstract Background Shapes */}
-             <div className="absolute w-48 h-48 bg-emerald-100 rounded-full blur-3xl opacity-50 -top-10 -right-10 animate-pulse"></div>
-             <div className="absolute w-48 h-48 bg-blue-100 rounded-full blur-3xl opacity-50 bottom-0 left-0 animate-pulse delay-700"></div>
+             <div className="absolute w-64 h-64 bg-emerald-100 rounded-full blur-3xl opacity-50 -top-10 -right-10 animate-pulse"></div>
+             <div className="absolute w-64 h-64 bg-blue-100 rounded-full blur-3xl opacity-50 bottom-0 left-0 animate-pulse delay-700"></div>
 
              <motion.div 
                 initial={{ opacity: 0, scale: 0.8, rotateY: 30 }}
                 animate={{ opacity: 1, scale: 1, rotateY: 0 }}
                 transition={{ duration: 0.8, type: "spring" }}
-                className="relative z-10 w-full max-w-[280px]"
+                className="relative z-10 w-full max-w-[420px]"
              >
                  <div className="bg-white p-2 rounded-2xl shadow-xl border-4 border-slate-50 transform rotate-3 group hover:rotate-0 transition-transform duration-500">
                     <img 
@@ -90,12 +90,12 @@ const DevOpsFoundationsSlide: React.FC<Props> = ({ isPresenting }) => {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 1 }}
-                    className="absolute -bottom-4 -right-2 bg-white py-1 px-3 rounded-lg shadow-lg border border-slate-100 flex items-center gap-2"
+                    className="absolute -bottom-6 -right-4 bg-white py-2 px-4 rounded-xl shadow-lg border border-slate-100 flex items-center gap-3"
                  >
-                    <span className="text-lg">🚀</span>
+                    <span className="text-2xl">🚀</span>
                     <div className="flex flex-col">
-                        <span className="text-[8px] text-slate-400 font-bold uppercase">Speed</span>
-                        <span className="text-[9px] font-bold text-slate-800">Deployment</span>
+                        <span className="text-[10px] text-slate-400 font-bold uppercase">Speed</span>
+                        <span className="text-xs font-bold text-slate-800">Deployment</span>
                     </div>
                  </motion.div>
              </motion.div>
