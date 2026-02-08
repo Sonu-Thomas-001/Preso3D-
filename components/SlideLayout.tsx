@@ -2,8 +2,8 @@ import React from 'react';
 import { motion, Variants } from 'framer-motion';
 
 interface SlideLayoutProps {
-  title: React.ReactNode; // Changed to Node to allow complex titles
-  subtitle?: string; // Added optional subtitle support
+  title: React.ReactNode; 
+  subtitle?: string; 
   titleColor?: 'blue' | 'green';
   id?: string;
   isPresenting?: boolean;
@@ -31,21 +31,34 @@ const itemVariants: Variants = {
   }
 };
 
-const GuviHclLogo = () => (
-  <div className="flex items-center gap-2 select-none">
-    {/* GUVI Logo */}
-    <div className="flex items-center gap-1">
-      <div className="w-6 h-6 rounded-full bg-[#46c256] text-white flex items-center justify-center font-bold text-[10px] shadow-sm leading-none pt-0.5">
-        8
+const PresoLogo = () => (
+  <div className="flex items-center gap-3 select-none group cursor-pointer">
+    {/* Animated 3D Icon */}
+    <div className="relative w-9 h-9">
+      {/* Back Layer (Shadow) */}
+      <div className="absolute inset-0 bg-indigo-600 rounded-lg rotate-12 opacity-10 group-hover:rotate-[20deg] group-hover:scale-90 transition-all duration-500 ease-out"></div>
+      
+      {/* Middle Layer */}
+      <div className="absolute inset-0 bg-indigo-600 rounded-lg rotate-6 opacity-30 group-hover:rotate-[10deg] group-hover:scale-95 transition-all duration-500 ease-out"></div>
+      
+      {/* Front Layer (Main) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-lg shadow-lg shadow-indigo-200 flex items-center justify-center group-hover:-translate-y-1 transition-transform duration-300 ease-out z-10 border border-indigo-500/20">
+         {/* Isometric Stack Icon */}
+         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white drop-shadow-md">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+         </svg>
       </div>
-      <span className="font-bold text-slate-800 tracking-tight text-lg">GUVI</span>
     </div>
     
-    {/* Separator */}
-    <span className="text-slate-300 font-light text-xl mx-1">|</span>
-    
-    {/* HCL Logo */}
-    <span className="font-extrabold text-[#00529b] italic text-xl tracking-wide">HCL</span>
+    {/* Brand Text */}
+    <div className="flex flex-col justify-center">
+       <span className="font-extrabold text-slate-700 tracking-tight text-lg leading-none group-hover:text-indigo-900 transition-colors">
+         Preso<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-500">3D</span>
+       </span>
+       <span className="text-[9px] font-semibold text-slate-400 tracking-widest uppercase mt-0.5 ml-0.5">Interactive Deck</span>
+    </div>
   </div>
 );
 
@@ -83,7 +96,7 @@ const SlideLayout: React.FC<SlideLayoutProps> = ({
         </div>
         
         <motion.div variants={itemVariants}>
-          <GuviHclLogo />
+          <PresoLogo />
         </motion.div>
       </div>
 
@@ -97,13 +110,15 @@ const SlideLayout: React.FC<SlideLayoutProps> = ({
       {/* --- Footer --- */}
       <motion.div 
           variants={itemVariants} 
-          className="h-8 bg-[#46c256] flex items-center justify-between px-4 text-white text-[9px] font-semibold tracking-wide shrink-0 z-20 relative"
+          className="h-8 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between px-6 text-slate-400 text-[10px] font-medium tracking-wide shrink-0 z-20 relative"
       >
-          <div className="flex-1 truncate text-center sm:text-left">
-             GUVI - Grab Ur Vernacular Imprint - TRUSTED BY 2 MILLION+ LEARNERS | 1000 Hiring Partners | 100+ Education Institutions
+          <div className="flex items-center gap-2">
+             <span>Powered by Preso3D</span>
+             <span className="text-slate-300 mx-1">|</span>
+             <span className="font-mono opacity-80">github.com/Sonu-Thomas-001/</span>
           </div>
-          <div className="bg-white text-[#46c256] px-1.5 py-0.5 text-[8px] rounded ml-2 font-bold min-w-[30px] text-center hidden sm:block">
-            www.guvi.in
+          <div className="flex items-center gap-2">
+             {id && <span>Slide {id}</span>}
           </div>
       </motion.div>
     </motion.div>

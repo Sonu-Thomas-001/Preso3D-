@@ -30,10 +30,23 @@ const itemVariants: Variants = {
 const HeaderLogos = () => (
     <div className="flex items-center gap-4 select-none">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl pb-1 shadow-sm">
-          P
+        {/* Animated 3D Icon Large */}
+        <div className="relative w-11 h-11">
+          <div className="absolute inset-0 bg-indigo-600 rounded-xl rotate-6 opacity-20"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-xl shadow-lg flex items-center justify-center z-10">
+             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+             </svg>
+          </div>
         </div>
-        <span className="text-2xl font-bold text-gray-900 tracking-tight">Preso<span className="text-indigo-600">3D</span></span>
+        
+        <div className="flex flex-col justify-center">
+             <span className="text-2xl font-extrabold text-slate-800 tracking-tight leading-none">
+                Preso<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-500">3D</span>
+             </span>
+        </div>
       </div>
     </div>
 );
