@@ -82,14 +82,14 @@ const UnderstandingDevOpsSlide: React.FC<Props> = ({ isPresenting }) => {
               className="relative w-full h-full bg-white/20 backdrop-blur-md border border-white/90 rounded-[4rem] shadow-[0_60px_150px_rgba(0,0,0,0.2)] overflow-hidden flex items-center justify-center group cursor-pointer"
               style={{ transformStyle: 'preserve-3d' }}
             >
-              {/* Diagram Image Area */}
-              <div className="p-8 w-full h-full flex items-center justify-center relative">
+              {/* Diagram Image Area with matching border radius */}
+              <div className="p-8 w-full h-full flex items-center justify-center relative overflow-hidden rounded-[3.5rem]">
                   <div className="absolute inset-0 bg-gradient-to-tr from-blue-100/10 via-transparent to-emerald-100/10 opacity-40"></div>
                   
                   <img 
                     src="https://cdn.jsdelivr.net/gh/Sonu-Thomas-001/image-host@master/Preso%203D/devops%20loops.png" 
                     alt="DevOps Infinity Flow"
-                    className="w-full h-full object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.15)] transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.15)] transition-transform duration-700 group-hover:scale-105 rounded-[2.5rem]"
                   />
               </div>
 
