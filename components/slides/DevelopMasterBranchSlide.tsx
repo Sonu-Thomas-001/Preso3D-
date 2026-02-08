@@ -9,7 +9,7 @@ interface Props {
 const DevelopMasterBranchSlide: React.FC<Props> = ({ isPresenting }) => {
   const HeaderTitle = (
     <div className="flex flex-col">
-        <span className="text-[#46c256] text-3xl font-bold">[DevOps Foundations]</span>
+        <span className="text-[#46c256] text-3xl font-bold tracking-tight">[DevOps Foundations]</span>
         <span className="text-slate-500 text-xl font-medium mt-1">The Two Main Branches</span>
     </div>
   );
@@ -21,117 +21,160 @@ const DevelopMasterBranchSlide: React.FC<Props> = ({ isPresenting }) => {
       id="33"
       isPresenting={isPresenting}
     >
-      <div className="w-full h-full flex flex-col items-center justify-center perspective-1000 relative overflow-visible">
+      <div className="w-full h-full flex flex-col items-center justify-center relative perspective-2500 overflow-visible pb-10">
         
-        {/* 3D Container */}
-        <motion.div 
-            className="relative w-full max-w-4xl h-[400px]"
-            initial={{ rotateX: 20, rotateY: -10 }}
-            animate={{ rotateX: 10, rotateY: 0 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            style={{ transformStyle: 'preserve-3d' }}
-        >
-            
-            {/* --- MASTER TRACK (Back) --- */}
-            <div className="absolute top-[80px] left-0 w-full h-16" style={{ transform: 'translateZ(-50px)' }}>
-                 {/* Track Base */}
-                 <div className="absolute inset-0 bg-blue-100 rounded-full border border-blue-200 shadow-inner"></div>
-                 {/* Animated Core */}
-                 <motion.div 
-                    className="absolute top-1/2 left-0 right-0 h-2 bg-blue-500 -translate-y-1/2 blur-md"
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                 />
-                 
-                 {/* Label */}
-                 <div className="absolute -left-20 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-4 py-1 rounded-r-lg font-bold text-sm shadow-lg">
-                    MASTER
-                 </div>
-                 <div className="absolute -left-20 top-[120%] text-[10px] text-blue-400 font-bold w-32 text-right">Production Ready</div>
-
-                 {/* Nodes */}
-                 <motion.div 
-                    initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 }}
-                    className="absolute left-[20%] top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-blue-500 border-4 border-white shadow-xl z-10 flex items-center justify-center text-[8px] text-white font-bold"
-                 >v1.0</motion.div>
-
-                 <motion.div 
-                    initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.5 }}
-                    className="absolute left-[80%] top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-blue-500 border-4 border-white shadow-xl z-10 flex items-center justify-center text-[8px] text-white font-bold"
-                 >v1.1</motion.div>
-            </div>
-
-
-            {/* --- DEVELOP TRACK (Front) --- */}
-            <div className="absolute top-[220px] left-0 w-full h-16" style={{ transform: 'translateZ(50px)' }}>
-                 {/* Track Base */}
-                 <div className="absolute inset-0 bg-purple-100 rounded-full border border-purple-200 shadow-inner"></div>
-                 {/* Animated Core */}
-                 <motion.div 
-                    className="absolute top-1/2 left-0 right-0 h-2 bg-purple-500 -translate-y-1/2 blur-md"
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-                 />
-
-                 {/* Label */}
-                 <div className="absolute -left-20 top-1/2 -translate-y-1/2 bg-purple-600 text-white px-4 py-1 rounded-r-lg font-bold text-sm shadow-lg">
-                    DEVELOP
-                 </div>
-                 <div className="absolute -left-20 top-[120%] text-[10px] text-purple-400 font-bold w-32 text-right">Active Development</div>
-
-                 {/* Nodes */}
-                 {[30, 45, 60, 75].map((pos, i) => (
-                     <motion.div 
-                        key={i}
-                        initial={{ scale: 0, y: -50, opacity: 0 }} 
-                        animate={{ scale: 1, y: -20, opacity: 1 }} // Centered vertically
-                        transition={{ delay: 0.8 + (i * 0.3), type: "spring" }}
-                        className="absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-purple-400 border-4 border-white shadow-lg z-10"
-                        style={{ left: `${pos}%` }}
-                     />
-                 ))}
-            </div>
-
-
-            {/* --- CONNECTORS --- */}
-            <svg className="absolute inset-0 pointer-events-none w-full h-full overflow-visible">
-                {/* Connection v1.0 -> Develop Start */}
-                <motion.path 
-                    d="M 180 80 C 180 200, 220 200, 260 250"
-                    fill="none"
-                    stroke="#cbd5e1"
-                    strokeWidth="3"
-                    strokeDasharray="8 4"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1, delay: 0.6 }}
-                />
-                 {/* Connection Develop End -> v1.1 */}
-                 <motion.path 
-                    d="M 680 250 C 720 200, 720 120, 720 80"
-                    fill="none"
-                    stroke="#cbd5e1"
-                    strokeWidth="3"
-                    strokeDasharray="8 4"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1, delay: 2 }}
-                />
-            </svg>
-
-        </motion.div>
-
-        {/* Legend */}
-        <div className="flex gap-8 mt-8 bg-white/50 p-4 rounded-xl border border-slate-100">
-            <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                <span className="text-xs font-bold text-slate-600">Infinite Lifetime</span>
-            </div>
-            <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                <span className="text-xs font-bold text-slate-600">Integration Hub</span>
-            </div>
+        {/* Ambient Background Glows */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+           <div className="absolute top-[15%] left-[20%] w-[30%] h-[300px] bg-blue-500 blur-[120px] rounded-full" />
+           <div className="absolute bottom-[15%] right-[20%] w-[30%] h-[300px] bg-purple-500 blur-[120px] rounded-full" />
         </div>
+
+        <div className="relative w-full max-w-6xl h-full flex flex-col items-center justify-center gap-12">
+          
+          {/* --- MASTER BRANCH (PRODUCTION) --- */}
+          <motion.div 
+            className="relative w-full h-[180px] flex items-center"
+            initial={{ opacity: 0, x: -100, rotateX: 10 }}
+            animate={{ opacity: 1, x: 0, rotateX: 0 }}
+            transition={{ duration: 0.8, type: "spring" }}
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            {/* Branch Badge */}
+            <motion.div 
+              className="absolute -top-6 left-12 bg-blue-600 px-6 py-2 rounded-full shadow-lg border border-blue-400/30 z-50 flex items-center gap-3"
+              whileHover={{ y: -2 }}
+            >
+                <div className="w-2 h-2 rounded-full bg-white animate-pulse shadow-[0_0_8px_white]"></div>
+                <span className="text-white font-black text-[12px] uppercase tracking-[0.2em]">Master Branch</span>
+            </motion.div>
+
+            {/* Glass Rail */}
+            <div className="relative w-full h-full bg-white/30 backdrop-blur-xl border border-white/80 rounded-[2.5rem] shadow-[0_30px_80px_rgba(0,0,0,0.1)] overflow-hidden flex items-center px-12 group cursor-default">
+                {/* Track Line */}
+                <div className="absolute h-1 left-12 right-12 bg-blue-100 rounded-full">
+                    <motion.div 
+                      className="h-full bg-blue-500 w-1/3 blur-sm opacity-50"
+                      animate={{ x: ["-100%", "400%"] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                    />
+                </div>
+
+                <div className="relative z-10 flex justify-between w-full items-center">
+                    <div className="flex flex-col">
+                        <span className="text-blue-900 font-bold text-lg">Production Ready</span>
+                        <span className="text-slate-500 text-xs font-medium">Infinite Lifetime • Stable Releases Only</span>
+                    </div>
+                    
+                    <div className="flex gap-16 mr-10">
+                        {['v1.0', 'v1.1'].map((ver, i) => (
+                            <motion.div 
+                                key={ver}
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{ delay: 0.5 + (i * 0.4), type: "spring" }}
+                                className="w-14 h-14 bg-white rounded-2xl shadow-xl border-2 border-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+                            >
+                                <span className="text-blue-600 font-black text-xs">{ver}</span>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+                {/* Shine effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none"></div>
+            </div>
+          </motion.div>
+
+          {/* --- CONNECTION PATH (ANIMATED SVG) --- */}
+          <div className="absolute inset-0 pointer-events-none z-0">
+              <svg className="w-full h-full overflow-visible" viewBox="0 0 1000 600">
+                  <motion.path 
+                    d="M 300 220 Q 350 300 400 380"
+                    fill="none"
+                    stroke="#cbd5e1"
+                    strokeWidth="3"
+                    strokeDasharray="8 4"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ delay: 1, duration: 1.5 }}
+                  />
+                  <motion.path 
+                    d="M 700 380 Q 750 300 800 220"
+                    fill="none"
+                    stroke="#cbd5e1"
+                    strokeWidth="3"
+                    strokeDasharray="8 4"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ delay: 1.5, duration: 1.5 }}
+                  />
+              </svg>
+          </div>
+
+          {/* --- DEVELOP BRANCH (INTEGRATION) --- */}
+          <motion.div 
+            className="relative w-full h-[180px] flex items-center"
+            initial={{ opacity: 0, x: 100, rotateX: -10 }}
+            animate={{ opacity: 1, x: 0, rotateX: 0 }}
+            transition={{ duration: 0.8, type: "spring", delay: 0.2 }}
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            {/* Branch Badge */}
+            <motion.div 
+              className="absolute -top-6 right-12 bg-purple-600 px-6 py-2 rounded-full shadow-lg border border-purple-400/30 z-50 flex items-center gap-3"
+              whileHover={{ y: -2 }}
+            >
+                <div className="w-2 h-2 rounded-full bg-white animate-pulse delay-500 shadow-[0_0_8px_white]"></div>
+                <span className="text-white font-black text-[12px] uppercase tracking-[0.2em]">Develop Branch</span>
+            </motion.div>
+
+            {/* Glass Rail */}
+            <div className="relative w-full h-full bg-white/30 backdrop-blur-xl border border-white/80 rounded-[2.5rem] shadow-[0_30px_80px_rgba(0,0,0,0.1)] overflow-hidden flex items-center px-12 group cursor-default">
+                {/* Track Line */}
+                <div className="absolute h-1 left-12 right-12 bg-purple-100 rounded-full">
+                    <motion.div 
+                      className="h-full bg-purple-500 w-1/3 blur-sm opacity-50"
+                      animate={{ x: ["400%", "-100%"] }}
+                      transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                    />
+                </div>
+
+                <div className="relative z-10 flex flex-row-reverse justify-between w-full items-center">
+                    <div className="flex flex-col text-right">
+                        <span className="text-purple-900 font-bold text-lg">Active Development</span>
+                        <span className="text-slate-500 text-xs font-medium">Integration Hub • Daily Commits</span>
+                    </div>
+                    
+                    <div className="flex gap-8 ml-10">
+                        {[1, 2, 3, 4].map((i) => (
+                            <motion.div 
+                                key={i}
+                                initial={{ scale: 0, y: 10 }}
+                                animate={{ scale: 1, y: 0 }}
+                                transition={{ delay: 1 + (i * 0.2), type: "spring" }}
+                                className="w-10 h-10 bg-purple-50 rounded-xl shadow-md border border-purple-200 flex items-center justify-center group-hover:bg-white transition-colors"
+                            >
+                                <div className="w-2.5 h-2.5 rounded-full bg-purple-400"></div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+                 {/* Shine effect */}
+                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none"></div>
+            </div>
+          </motion.div>
+
+        </div>
+
+        {/* Interaction Hint */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.5 }}
+          className="absolute bottom-4 flex flex-col items-center gap-1.5 pointer-events-none"
+        >
+          <div className="w-px h-6 bg-gradient-to-b from-transparent via-slate-300 to-transparent"></div>
+          <span className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.4em]">Interactive Topology</span>
+        </motion.div>
 
       </div>
     </SlideLayout>

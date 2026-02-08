@@ -10,45 +10,9 @@ const AgileVsDevOpsSlide: React.FC<Props> = ({ isPresenting }) => {
   const HeaderTitle = (
     <div className="flex flex-col">
         <span className="text-[#46c256] text-3xl font-bold tracking-tight">[DevOps Foundations]</span>
-        <span className="text-slate-500 text-xl font-medium mt-1">Agile vs DevOps</span>
+        <span className="text-slate-500 text-xl font-medium mt-1">Agile vs DevOps Comparison</span>
     </div>
   );
-
-  // --- Agile Data ---
-  const agilePhases = [
-    { label: "Plan", color: "from-red-500 to-red-600", text: "text-red-50" },
-    { label: "Design", color: "from-orange-500 to-orange-600", text: "text-orange-50" },
-    { label: "Develop", color: "from-amber-400 to-amber-500", text: "text-amber-50" },
-    { label: "Test", color: "from-cyan-400 to-cyan-500", text: "text-cyan-50" },
-    { label: "Release", color: "from-blue-500 to-blue-600", text: "text-blue-50" },
-    { label: "Feedback", color: "from-teal-500 to-teal-600", text: "text-teal-50" },
-  ];
-
-  // --- DevOps Data ---
-  // Coordinates based on an 800x450 SVG canvas, center (400, 225)
-  // Left Loop Center (~250, 225), Right Loop Center (~550, 225)
-  const devOpsPhases = [
-    // DEV LOOP (Left)
-    { label: "PLAN", x: 280, y: 150, color: "text-teal-600", bg: "bg-teal-100", border: "border-teal-200" },
-    { label: "CREATE", x: 140, y: 180, color: "text-lime-600", bg: "bg-lime-100", border: "border-lime-200" },
-    { label: "VERIFY", x: 140, y: 270, color: "text-indigo-600", bg: "bg-indigo-100", border: "border-indigo-200" },
-    { label: "PACKAGE", x: 280, y: 300, color: "text-sky-600", bg: "bg-sky-100", border: "border-sky-200" },
-    
-    // OPS LOOP (Right)
-    { label: "RELEASE", x: 520, y: 150, color: "text-orange-600", bg: "bg-orange-100", border: "border-orange-200" },
-    { label: "CONFIGURE", x: 660, y: 180, color: "text-purple-600", bg: "bg-purple-100", border: "border-purple-200" },
-    { label: "MONITOR", x: 660, y: 270, color: "text-red-600", bg: "bg-red-100", border: "border-red-200" },
-  ];
-
-  // Infinity Loop Path (Same as Slide 22 for consistency)
-  const infinityPath = `
-    M 400 225
-    C 340 125, 100 125, 100 225
-    C 100 325, 340 325, 400 225
-    C 460 125, 700 125, 700 225
-    C 700 325, 460 325, 400 225
-    Z
-  `;
 
   return (
     <SlideLayout 
@@ -57,159 +21,129 @@ const AgileVsDevOpsSlide: React.FC<Props> = ({ isPresenting }) => {
       id="25"
       isPresenting={isPresenting}
     >
-      <div className="w-full h-full flex items-center justify-center gap-4 relative px-4">
+      <div className="w-full h-full flex items-center justify-center relative perspective-2500 overflow-visible pb-12">
         
-        {/* --- LEFT: AGILE --- */}
-        <div className="w-1/2 h-full flex flex-col items-center justify-center relative border-r border-slate-100">
-             <motion.div 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
-                className="relative w-[340px] h-[340px] flex items-center justify-center"
-             >
-                <h3 className="absolute text-4xl font-black text-slate-800 tracking-tighter z-20">AGILE</h3>
-                
-                {/* Rotating Ring Container */}
-                <motion.div 
-                    className="absolute inset-0 w-full h-full"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                >
-                    {agilePhases.map((phase, i) => {
-                        const angle = (i * 360) / agilePhases.length;
-                        return (
-                            <div 
-                                key={i}
-                                className="absolute top-1/2 left-1/2 w-[140px] h-[60px] origin-left"
-                                style={{ 
-                                    transform: `translateY(-50%) rotate(${angle}deg) translateX(40px)`,
-                                }}
-                            >
-                                {/* Chevron Shape */}
-                                <div 
-                                    className={`w-full h-full bg-gradient-to-r ${phase.color} shadow-lg flex items-center justify-center relative`}
-                                    style={{ 
-                                        clipPath: "polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%)",
-                                    }}
-                                >
-                                    {/* Counter-rotate text so it stays readable-ish? No, for a wheel, radial text is fine. */}
-                                    <span className={`text-[10px] font-black uppercase tracking-widest ${phase.text} ml-2`}>
-                                        {phase.label}
-                                    </span>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </motion.div>
-
-                {/* Inner Connecting Ring */}
-                <div className="absolute inset-0 m-auto w-[180px] h-[180px] rounded-full border-4 border-slate-100 border-dashed animate-spin-slow opacity-50 z-10"></div>
-             </motion.div>
-             
-             <div className="absolute bottom-8 text-center">
-                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Focus: Development Speed</span>
-             </div>
+        {/* Ambient Background Glows */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+           <div className="absolute left-[5%] w-[45%] h-[600px] bg-blue-400 blur-[180px] rounded-full" />
+           <div className="absolute right-[5%] w-[45%] h-[600px] bg-emerald-400 blur-[180px] rounded-full" />
         </div>
 
-        {/* --- CENTER VS BADGE --- */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+        <div className="relative w-full max-w-[90rem] h-full flex items-center justify-center gap-10 px-4">
+          
+          {/* --- LEFT SIDE: AGILE BOX --- */}
+          <motion.div 
+            className="relative w-1/2 h-[520px] flex flex-col items-center justify-center"
+            initial={{ opacity: 0, x: -60, rotateY: 15 }}
+            animate={{ opacity: 1, x: 0, rotateY: 0 }}
+            transition={{ duration: 1, type: "spring", bounce: 0.2 }}
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            {/* Top Badge: Positioned outside the container */}
             <motion.div 
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.5, type: "spring" }}
-                className="w-16 h-16 bg-white rounded-full shadow-2xl flex items-center justify-center border-4 border-slate-50"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-md px-8 py-3 rounded-full shadow-2xl border border-blue-100 z-50 whitespace-nowrap"
             >
-                <span className="text-xl font-black text-slate-300 italic">VS</span>
+                <span className="text-blue-600 font-black text-[12px] uppercase tracking-[0.3em]">Agile Methodology</span>
             </motion.div>
+
+            {/* 3D Glass Container */}
+            <motion.div 
+              whileHover={{ rotateY: 5, scale: 1.02, translateZ: 40 }}
+              className="relative w-full h-full bg-white/30 backdrop-blur-xl border border-white/80 rounded-[4rem] shadow-[0_50px_120px_rgba(0,0,0,0.15)] overflow-hidden flex items-center justify-center group cursor-pointer"
+              style={{ transformStyle: 'preserve-3d' }}
+            >
+              <div className="p-10 w-full h-full flex items-center justify-center relative overflow-hidden rounded-[3.5rem]">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-100/20 via-transparent to-transparent opacity-40"></div>
+                  
+                  {/* Pulse Wrapper for Agile Image */}
+                  <motion.div 
+                    className="w-full h-full flex items-center justify-center"
+                    animate={{ scale: [1, 1.03, 1] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <img 
+                      src="https://cdn.jsdelivr.net/gh/Sonu-Thomas-001/image-host@master/Preso%203D/Agile.png" 
+                      alt="Agile Lifecycle"
+                      className="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.1)] transition-transform duration-1000 group-hover:scale-105 rounded-[2.5rem]"
+                    />
+                  </motion.div>
+              </div>
+              {/* Polish Light Sweep */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none"></div>
+            </motion.div>
+          </motion.div>
+
+          {/* --- VS SEPARATOR --- */}
+          <div className="relative z-50 flex flex-col items-center">
+             <motion.div 
+                initial={{ scale: 0, rotate: -45 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ delay: 0.8, type: "spring", bounce: 0.5 }}
+                className="w-20 h-20 bg-white rounded-3xl shadow-2xl flex items-center justify-center border-4 border-slate-50 rotate-12"
+             >
+                <span className="text-2xl font-black text-slate-400 italic">VS</span>
+             </motion.div>
+             <div className="h-40 w-0.5 bg-gradient-to-b from-transparent via-slate-200 to-transparent mt-6"></div>
+          </div>
+
+          {/* --- RIGHT SIDE: DEVOPS BOX --- */}
+          <motion.div 
+            className="relative w-1/2 h-[520px] flex flex-col items-center justify-center"
+            initial={{ opacity: 0, x: 60, rotateY: -15 }}
+            animate={{ opacity: 1, x: 0, rotateY: 0 }}
+            transition={{ duration: 1, type: "spring", bounce: 0.2, delay: 0.2 }}
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            {/* Top Badge: Positioned outside the container */}
+            <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-md px-8 py-3 rounded-full shadow-2xl border border-emerald-100 z-50 whitespace-nowrap"
+            >
+                <span className="text-emerald-600 font-black text-[12px] uppercase tracking-[0.3em]">DevOps Lifecycle</span>
+            </motion.div>
+
+            {/* 3D Glass Container */}
+            <motion.div 
+              whileHover={{ rotateY: -5, scale: 1.02, translateZ: 40 }}
+              className="relative w-full h-full bg-white/30 backdrop-blur-xl border border-white/80 rounded-[4rem] shadow-[0_50px_120px_rgba(0,0,0,0.15)] overflow-hidden flex items-center justify-center group cursor-pointer"
+              style={{ transformStyle: 'preserve-3d' }}
+            >
+              <div className="p-10 w-full h-full flex items-center justify-center relative overflow-hidden rounded-[3.5rem]">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100/20 via-transparent to-transparent opacity-40"></div>
+                  
+                  {/* Pulse Wrapper for DevOps Image */}
+                  <motion.div 
+                    className="w-full h-full flex items-center justify-center"
+                    animate={{ scale: [1, 1.03, 1] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  >
+                    <img 
+                      src="https://cdn.jsdelivr.net/gh/Sonu-Thomas-001/image-host@master/Preso%203D/devops%20loops%203.png" 
+                      alt="DevOps Loop"
+                      className="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.1)] transition-transform duration-1000 group-hover:scale-105 rounded-[2.5rem]"
+                    />
+                  </motion.div>
+              </div>
+              {/* Polish Light Sweep */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none"></div>
+            </motion.div>
+          </motion.div>
+
         </div>
 
-        {/* --- RIGHT: DEVOPS --- */}
-        <div className="w-1/2 h-full flex flex-col items-center justify-center relative">
-             <div className="relative w-full h-[340px] flex items-center justify-center scale-90">
-                 
-                 {/* Infinity Loop SVG */}
-                 <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none z-0">
-                    <defs>
-                        <linearGradient id="devOpsGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#0ea5e9" /> {/* Blue */}
-                            <stop offset="40%" stopColor="#10b981" /> {/* Green */}
-                            <stop offset="60%" stopColor="#f59e0b" /> {/* Orange */}
-                            <stop offset="100%" stopColor="#ef4444" /> {/* Red */}
-                        </linearGradient>
-                        <filter id="loopGlow">
-                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                            <feMerge>
-                                <feMergeNode in="coloredBlur"/>
-                                <feMergeNode in="SourceGraphic"/>
-                            </feMerge>
-                        </filter>
-                    </defs>
-
-                    {/* Path Track */}
-                    <path 
-                        d={infinityPath}
-                        fill="none"
-                        stroke="#e2e8f0"
-                        strokeWidth="16"
-                        strokeLinecap="round"
-                    />
-
-                    {/* Colored Gradient Path */}
-                    <motion.path 
-                        d={infinityPath}
-                        fill="none"
-                        stroke="url(#devOpsGrad)"
-                        strokeWidth="8"
-                        strokeLinecap="round"
-                        filter="url(#loopGlow)"
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ duration: 2, ease: "easeInOut" }}
-                    />
-                    
-                    {/* Flow Particle */}
-                    <circle r="4" fill="white">
-                        <animateMotion 
-                            dur="6s" 
-                            repeatCount="indefinite"
-                            path={infinityPath}
-                            keyPoints="0;1"
-                            keyTimes="0;1"
-                        />
-                    </circle>
-                 </svg>
-
-                 {/* Center Label */}
-                 <h3 className="absolute text-4xl font-black text-slate-800 tracking-tighter z-10 bg-white/50 backdrop-blur-sm px-4 rounded-full">DEVOPS</h3>
-
-                 {/* Phase Cards */}
-                 {devOpsPhases.map((phase, i) => (
-                     <motion.div
-                        key={i}
-                        initial={{ opacity: 0, scale: 0, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ delay: 0.5 + (i * 0.1), type: "spring" }}
-                        className={`
-                            absolute px-3 py-1.5 rounded-lg shadow-md border 
-                            ${phase.bg} ${phase.border} flex items-center justify-center
-                            hover:scale-110 transition-transform cursor-default z-20
-                        `}
-                        style={{ 
-                            left: phase.x, 
-                            top: phase.y,
-                            transform: 'translate(-50%, -50%)'
-                        }}
-                     >
-                        <span className={`text-[9px] font-black ${phase.color}`}>{phase.label}</span>
-                     </motion.div>
-                 ))}
-
-             </div>
-
-             <div className="absolute bottom-8 text-center">
-                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Focus: End-to-End Delivery</span>
-             </div>
-        </div>
+        {/* Footer Spatial Prompt */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.5 }}
+          className="absolute bottom-4 flex flex-col items-center gap-1.5 pointer-events-none"
+        >
+          <div className="w-px h-6 bg-gradient-to-b from-transparent via-slate-300 to-transparent"></div>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.5em]">Spatial Comparison Active</span>
+        </motion.div>
 
       </div>
     </SlideLayout>
