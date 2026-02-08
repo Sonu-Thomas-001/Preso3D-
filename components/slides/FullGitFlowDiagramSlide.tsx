@@ -1,5 +1,6 @@
 import React from 'react';
 import SlideLayout from '../SlideLayout';
+import { motion } from 'framer-motion';
 
 interface Props {
   isPresenting: boolean;
@@ -9,6 +10,7 @@ const FullGitFlowDiagramSlide: React.FC<Props> = ({ isPresenting }) => {
   const HeaderTitle = (
     <div className="flex flex-col">
         <span className="text-[#46c256] text-3xl font-bold">[DevOps Foundations]</span>
+        <span className="text-slate-500 text-xl font-medium mt-1">Full GitFlow Diagram</span>
     </div>
   );
 
@@ -19,104 +21,116 @@ const FullGitFlowDiagramSlide: React.FC<Props> = ({ isPresenting }) => {
       id="35"
       isPresenting={isPresenting}
     >
-      <div className="flex flex-col h-full pt-2">
-        <div className="flex items-center justify-center h-full w-full">
-            <svg viewBox="0 0 800 400" className="w-full h-full max-h-[450px]">
+      <div className="flex flex-col h-full items-center justify-center">
+        
+        {/* Diagram Container */}
+        <div className="relative w-full h-[450px] bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-800 flex items-center justify-center">
+            
+            {/* Grid */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+
+            <svg viewBox="0 0 900 450" className="w-full h-full absolute inset-0">
                 <defs>
-                    <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-                        <path d="M0,0 L0,6 L6,3 z" fill="#475569" />
+                    <filter id="neonGlow">
+                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                    <marker id="arrowHead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                        <path d="M0,0 L0,6 L6,3 z" fill="#64748b" />
                     </marker>
                 </defs>
 
-                {/* Grid Lines/Guides (Optional, keeping hidden for cleanliness) */}
+                {/* --- LABELS --- */}
+                <text x="20" y="50" fill="#3b82f6" fontSize="12" fontWeight="bold">MASTER</text>
+                <text x="20" y="100" fill="#ef4444" fontSize="12" fontWeight="bold">HOTFIX</text>
+                <text x="20" y="180" fill="#10b981" fontSize="12" fontWeight="bold">RELEASE</text>
+                <text x="20" y="260" fill="#a855f7" fontSize="12" fontWeight="bold">DEVELOP</text>
+                <text x="20" y="340" fill="#f59e0b" fontSize="12" fontWeight="bold">FEATURE</text>
 
-                {/* Labels */}
-                <text x="20" y="50" fontSize="12" fontWeight="bold" fill="#334155">Master</text>
-                <text x="20" y="100" fontSize="12" fontWeight="bold" fill="#334155">Hotfixes</text>
-                <text x="20" y="150" fontSize="12" fontWeight="bold" fill="#334155">Release branches</text>
-                <text x="20" y="200" fontSize="12" fontWeight="bold" fill="#334155">Develop</text>
-                <text x="20" y="250" fontSize="12" fontWeight="bold" fill="#334155">Feature branches</text>
+                {/* --- TRACKS (Faint Lines) --- */}
+                <line x1="100" y1="50" x2="880" y2="50" stroke="#1e293b" strokeWidth="2" />
+                <line x1="100" y1="260" x2="880" y2="260" stroke="#1e293b" strokeWidth="2" />
 
-                {/* Tracks (Invisible or subtle lines) */}
-                <line x1="120" y1="50" x2="780" y2="50" stroke="#e2e8f0" strokeWidth="1" />
-                <line x1="120" y1="200" x2="780" y2="200" stroke="#e2e8f0" strokeWidth="1" />
+                {/* --- MASTER BRANCH (Blue) --- */}
+                <motion.path 
+                    d="M 100 50 L 880 50" 
+                    stroke="#3b82f6" strokeWidth="4" strokeLinecap="round" filter="url(#neonGlow)"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2 }}
+                />
+                {/* Nodes */}
+                <circle cx="150" cy="50" r="6" fill="#1d4ed8" stroke="white" strokeWidth="2" />
+                <circle cx="350" cy="50" r="6" fill="#1d4ed8" stroke="white" strokeWidth="2" />
+                <circle cx="700" cy="50" r="8" fill="#1d4ed8" stroke="white" strokeWidth="2" />
+                <text x="690" y="30" fill="#3b82f6" fontSize="10">v1.0</text>
+                <circle cx="850" cy="50" r="8" fill="#1d4ed8" stroke="white" strokeWidth="2" />
+                <text x="840" y="30" fill="#3b82f6" fontSize="10">v1.1</text>
 
+                {/* --- HOTFIX BRANCH (Red) --- */}
+                {/* Flow: Master -> Hotfix -> Master & Develop */}
+                <motion.path 
+                    d="M 350 50 L 400 100 L 500 100 L 550 50" 
+                    fill="none" stroke="#ef4444" strokeWidth="2" strokeDasharray="4 2"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 1 }}
+                />
+                <motion.path 
+                    d="M 500 100 L 550 260" 
+                    fill="none" stroke="#ef4444" strokeWidth="2" strokeDasharray="4 2"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 2 }}
+                />
+                <circle cx="450" cy="100" r="6" fill="#b91c1c" stroke="#ef4444" strokeWidth="2" />
+                <text x="430" y="125" fill="#ef4444" fontSize="10">Fix Bug</text>
 
-                {/* --- Master Track (Green) --- */}
-                {/* Initial Node */}
-                <circle cx="150" cy="50" r="8" fill="#10b981" stroke="#065f46" strokeWidth="2" />
-                {/* v0.1 */}
-                <circle cx="300" cy="50" r="8" fill="#10b981" stroke="#065f46" strokeWidth="2" />
-                {/* v0.2 */}
-                <circle cx="650" cy="50" r="8" fill="#10b981" stroke="#065f46" strokeWidth="2" />
-                {/* v1.0 */}
-                <circle cx="750" cy="50" r="8" fill="#10b981" stroke="#065f46" strokeWidth="2" />
+                {/* --- DEVELOP BRANCH (Purple) --- */}
+                <motion.path 
+                    d="M 150 50 L 200 260 L 880 260" 
+                    fill="none" stroke="#a855f7" strokeWidth="4" strokeLinecap="round" filter="url(#neonGlow)"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2.5, delay: 0.5 }}
+                />
+                {/* Nodes */}
+                {[250, 350, 450, 550, 650].map((cx, i) => (
+                    <circle key={i} cx={cx} cy="260" r="5" fill="#7e22ce" stroke="white" strokeWidth="1" />
+                ))}
 
-
-                {/* --- Hotfix Track (Red) --- */}
-                {/* Hotfix for v0.1 */}
-                <circle cx="220" cy="100" r="8" fill="#ef4444" stroke="#7f1d1d" strokeWidth="2" />
-                
-                {/* Flow: Master -> Hotfix */}
-                <path d="M 157 54 L 213 96" stroke="#475569" strokeWidth="1" markerEnd="url(#arrow)" />
-                {/* Flow: Hotfix -> Master (Merge) */}
-                <path d="M 227 96 L 293 54" stroke="#475569" strokeWidth="1" markerEnd="url(#arrow)" />
-                {/* Flow: Hotfix -> Develop (Merge) */}
-                <path d="M 220 108 L 220 192" stroke="#475569" strokeWidth="1" markerEnd="url(#arrow)" />
-
-
-                {/* --- Release Track (Blue) --- */}
-                <circle cx="450" cy="150" r="8" fill="#3b82f6" stroke="#1e3a8a" strokeWidth="2" />
-                <circle cx="500" cy="150" r="8" fill="#3b82f6" stroke="#1e3a8a" strokeWidth="2" />
-                <circle cx="550" cy="150" r="8" fill="#3b82f6" stroke="#1e3a8a" strokeWidth="2" />
-
-                {/* Flow: Develop -> Release */}
-                <path d="M 400 200 L 445 155" stroke="#475569" strokeWidth="1" markerEnd="url(#arrow)" />
-                {/* Flow: Release -> Master (Merge) */}
-                <path d="M 550 142 L 645 55" stroke="#475569" strokeWidth="1" markerEnd="url(#arrow)" />
-                {/* Flow: Release -> Develop (Merge) */}
-                <path d="M 550 158 L 600 195" stroke="#475569" strokeWidth="1" markerEnd="url(#arrow)" />
-
-
-                {/* --- Develop Track (Orange) --- */}
-                <circle cx="180" cy="200" r="8" fill="#f97316" stroke="#7c2d12" strokeWidth="2" />
-                <circle cx="220" cy="200" r="8" fill="#f97316" stroke="#7c2d12" strokeWidth="2" />
-                <circle cx="260" cy="200" r="8" fill="#f97316" stroke="#7c2d12" strokeWidth="2" />
-                <circle cx="300" cy="200" r="8" fill="#f97316" stroke="#7c2d12" strokeWidth="2" />
-                <circle cx="350" cy="200" r="8" fill="#f97316" stroke="#7c2d12" strokeWidth="2" />
-                <circle cx="400" cy="200" r="8" fill="#f97316" stroke="#7c2d12" strokeWidth="2" />
-                <circle cx="600" cy="200" r="8" fill="#f97316" stroke="#7c2d12" strokeWidth="2" />
-                <circle cx="650" cy="200" r="8" fill="#f97316" stroke="#7c2d12" strokeWidth="2" />
-                <circle cx="750" cy="200" r="8" fill="#f97316" stroke="#7c2d12" strokeWidth="2" />
-
-                {/* Flow: Master -> Develop (Init) */}
-                <path d="M 150 58 L 180 192" stroke="#475569" strokeWidth="1" markerEnd="url(#arrow)" />
-
-
-                {/* --- Feature Track (Teal) --- */}
+                {/* --- FEATURE BRANCHES (Orange) --- */}
                 {/* Feature 1 */}
-                <circle cx="300" cy="280" r="8" fill="#2dd4bf" stroke="#134e4a" strokeWidth="2" />
-                <circle cx="350" cy="280" r="8" fill="#2dd4bf" stroke="#134e4a" strokeWidth="2" />
-                <circle cx="400" cy="280" r="8" fill="#2dd4bf" stroke="#134e4a" strokeWidth="2" />
+                <motion.path 
+                    d="M 250 260 L 300 340 L 400 340 L 450 260" 
+                    fill="none" stroke="#f59e0b" strokeWidth="3" strokeLinecap="round"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 1.5 }}
+                />
+                <circle cx="350" cy="340" r="5" fill="#b45309" stroke="#f59e0b" strokeWidth="2" />
 
-                {/* Flow: Develop -> Feature */}
-                <path d="M 260 208 L 295 275" stroke="#475569" strokeWidth="1" markerEnd="url(#arrow)" />
-                {/* Flow: Feature -> Develop */}
-                <path d="M 400 272 L 400 208" stroke="#475569" strokeWidth="1" markerEnd="url(#arrow)" />
+                {/* Feature 2 */}
+                <motion.path 
+                    d="M 650 260 L 700 340 L 800 340" 
+                    fill="none" stroke="#f59e0b" strokeWidth="3" strokeLinecap="round"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 2.5 }}
+                />
 
-                 {/* Feature 2 */}
-                <circle cx="620" cy="350" r="8" fill="#2dd4bf" stroke="#134e4a" strokeWidth="2" />
-                <circle cx="670" cy="350" r="8" fill="#2dd4bf" stroke="#134e4a" strokeWidth="2" />
+                {/* --- RELEASE BRANCH (Green) --- */}
+                {/* Flow: Develop -> Release -> Master & Develop */}
+                <motion.path 
+                    d="M 550 260 L 600 180 L 750 180" 
+                    fill="none" stroke="#10b981" strokeWidth="3" strokeLinecap="round"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 3 }}
+                />
+                <circle cx="675" cy="180" r="5" fill="#047857" stroke="#10b981" strokeWidth="2" />
 
-                {/* Flow: Develop -> Feature 2 */}
-                <path d="M 600 208 L 615 342" stroke="#475569" strokeWidth="1" markerEnd="url(#arrow)" />
-                {/* Flow: Feature 2 -> Develop */}
-                <path d="M 670 342 L 745 208" stroke="#475569" strokeWidth="1" markerEnd="url(#arrow)" />
-
-
-                {/* Connecting Lines for Tracks (Simulated) */}
-                <path d="M 180 200 L 750 200" stroke="#f97316" strokeWidth="2" fill="none" opacity="0.3" />
-                <path d="M 150 50 L 750 50" stroke="#10b981" strokeWidth="2" fill="none" opacity="0.3" />
+                {/* Merge to Master */}
+                <motion.path 
+                    d="M 750 180 L 850 50" 
+                    fill="none" stroke="#10b981" strokeWidth="2" strokeDasharray="4 2"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 4 }}
+                />
+                {/* Merge Back to Develop */}
+                <motion.path 
+                    d="M 750 180 L 800 260" 
+                    fill="none" stroke="#10b981" strokeWidth="2" strokeDasharray="4 2"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 4 }}
+                />
 
             </svg>
         </div>

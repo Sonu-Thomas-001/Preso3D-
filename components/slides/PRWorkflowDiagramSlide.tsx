@@ -1,5 +1,6 @@
 import React from 'react';
 import SlideLayout from '../SlideLayout';
+import { motion } from 'framer-motion';
 
 interface Props {
   isPresenting: boolean;
@@ -9,30 +10,22 @@ const PRWorkflowDiagramSlide: React.FC<Props> = ({ isPresenting }) => {
   const HeaderTitle = (
     <div className="flex flex-col">
         <span className="text-[#46c256] text-3xl font-bold">[DevOps Foundations]</span>
+        <span className="text-slate-500 text-xl font-medium mt-1">PR Workflow</span>
     </div>
   );
 
-  const Box = ({ text, icon }: { text: string, icon?: React.ReactNode }) => (
-    <div className="border border-slate-400 rounded-md bg-white p-2 min-w-[80px] max-w-[100px] flex flex-col items-center justify-center text-center shadow-sm relative z-10">
-        {icon && <div className="mb-1">{icon}</div>}
-        <span className="text-[9px] font-bold text-slate-700 leading-tight">{text}</span>
-    </div>
+  const IsometricNode = ({ label, icon, x, y, delay, color = "bg-white" }: any) => (
+      <motion.div
+        initial={{ opacity: 0, y: y - 20 }}
+        animate={{ opacity: 1, y }}
+        transition={{ delay, duration: 0.5 }}
+        className={`absolute w-24 h-24 ${color} rounded-xl shadow-xl border-b-4 border-r-4 border-black/10 flex flex-col items-center justify-center z-10`}
+        style={{ left: x, top: y }}
+      >
+          <div className="text-2xl mb-1">{icon}</div>
+          <div className="text-[10px] font-bold text-slate-700 text-center leading-tight px-1">{label}</div>
+      </motion.div>
   );
-
-  const PersonIcon = () => (
-    <div className="w-10 h-10 bg-[#0288d1] rounded-full flex items-center justify-center border-2 border-white shadow-md">
-        <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
-    </div>
-  );
-
-   const GroupIcon = () => (
-    <div className="flex -space-x-2">
-         <div className="w-6 h-6 bg-slate-400 rounded-full border-2 border-white"></div>
-         <div className="w-6 h-6 bg-slate-400 rounded-full border-2 border-white"></div>
-         <div className="w-6 h-6 bg-slate-400 rounded-full border-2 border-white"></div>
-    </div>
-  );
-
 
   return (
     <SlideLayout 
@@ -41,89 +34,78 @@ const PRWorkflowDiagramSlide: React.FC<Props> = ({ isPresenting }) => {
       id="37"
       isPresenting={isPresenting}
     >
-      <div className="flex flex-col h-full items-center justify-center pt-8 relative">
+      <div className="w-full h-full flex items-center justify-center relative overflow-visible">
         
-        {/* Diagram Wrapper */}
-        <div className="relative w-full max-w-3xl h-64">
-            {/* SVG Connecting Lines */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+        {/* Isometric Container */}
+        <div className="relative w-[800px] h-[400px]">
+            
+            {/* Connecting Path SVG */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible">
                 <defs>
-                    <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-                        <path d="M0,0 L0,6 L6,3 z" fill="#94a3b8" />
-                    </marker>
+                    <linearGradient id="pathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#cbd5e1" />
+                        <stop offset="100%" stopColor="#46c256" />
+                    </linearGradient>
                 </defs>
                 
-                {/* Developer to Clone */}
-                <path d="M 100 160 L 100 100 L 200 100" stroke="#94a3b8" strokeWidth="1" fill="none" markerEnd="url(#arrow)" />
+                {/* Path Definition */}
+                <path 
+                    d="M 100 150 L 200 150 L 250 220 L 350 220 L 400 150 L 500 150 L 550 80 L 650 80" 
+                    fill="none" 
+                    stroke="#e2e8f0" 
+                    strokeWidth="8" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                />
                 
-                {/* Clone to Create Branch */}
-                <path d="M 280 100 L 330 100" stroke="#94a3b8" strokeWidth="1" fill="none" markerEnd="url(#arrow)" />
-                
-                {/* Create Branch to Commits (Dots) */}
-                <path d="M 380 120 L 380 160" stroke="#94a3b8" strokeWidth="1" fill="none" markerEnd="url(#arrow)" />
-                
-                {/* Commits Line */}
-                <line x1="380" y1="160" x2="520" y2="160" stroke="#000" strokeWidth="2" />
+                {/* Animated Flow Line */}
+                <motion.path 
+                     d="M 100 150 L 200 150 L 250 220 L 350 220 L 400 150 L 500 150 L 550 80 L 650 80" 
+                     fill="none" 
+                     stroke="url(#pathGrad)" 
+                     strokeWidth="4" 
+                     strokeLinecap="round" 
+                     strokeLinejoin="round"
+                     initial={{ pathLength: 0 }}
+                     animate={{ pathLength: 1 }}
+                     transition={{ duration: 2.5, ease: "easeInOut", repeat: Infinity }}
+                />
 
-                {/* Commits to Create PR */}
-                <path d="M 520 160 L 520 120" stroke="#94a3b8" strokeWidth="1" fill="none" markerEnd="url(#arrow)" />
-
-                {/* Create PR to Discussion */}
-                <path d="M 600 120 L 640 150" stroke="#94a3b8" strokeWidth="1" fill="none" markerEnd="url(#arrow)" />
-                
-                {/* Discussion to Merge */}
-                <path d="M 700 150 L 740 120" stroke="#94a3b8" strokeWidth="1" fill="none" markerEnd="url(#arrow)" />
-
-                 {/* Loop back from Discussion */}
-                 <path d="M 670 190 Q 670 210 600 210 L 450 210 Q 380 210 380 170" stroke="#94a3b8" strokeWidth="1" fill="none" strokeDasharray="4" markerEnd="url(#arrow)" />
-
+                {/* Feedback Loop Back */}
+                <path 
+                    d="M 550 80 Q 500 0 350 220" 
+                    fill="none" 
+                    stroke="#f87171" 
+                    strokeWidth="2" 
+                    strokeDasharray="4 4"
+                    opacity="0.5"
+                />
             </svg>
 
             {/* Nodes */}
+            {/* 1. Developer */}
+            <IsometricNode x={40} y={110} label="Developer" icon="👨‍💻" delay={0.1} color="bg-blue-50" />
             
-            {/* Developer */}
-            <div className="absolute left-[70px] top-[160px] flex flex-col items-center">
-                <PersonIcon />
-                <span className="text-[10px] font-bold mt-1 text-slate-600">Developer</span>
-            </div>
+            {/* 2. Clone */}
+            <IsometricNode x={180} y={110} label="Clone Repo" icon="📥" delay={0.3} />
+            
+            {/* 3. Branch & Commit (Lower Level) */}
+            <IsometricNode x={290} y={180} label="Branch & Commit" icon="🌿" delay={0.5} color="bg-purple-50" />
 
-            {/* Clone */}
-            <div className="absolute left-[200px] top-[80px]">
-                <Box text="Clone" />
-            </div>
+            {/* 4. Create PR */}
+            <IsometricNode x={430} y={110} label="Create PR" icon="📝" delay={0.7} color="bg-orange-50" />
 
-            {/* Create Branch */}
-            <div className="absolute left-[330px] top-[70px]">
-                <Box text="Create a branch" />
-            </div>
+            {/* 5. Review & Discuss (Higher Level) */}
+            <IsometricNode x={580} y={40} label="Review & Merge" icon="🤝" delay={0.9} color="bg-green-50" />
 
-            {/* Commits Dots */}
-            <div className="absolute left-[370px] top-[150px] flex items-center gap-8">
-                 <div className="w-5 h-5 rounded-full border-4 border-black bg-white z-10"></div>
-                 <div className="w-5 h-5 rounded-full border-4 border-black bg-white z-10"></div>
-                 <div className="w-5 h-5 rounded-full border-4 border-black bg-white z-10"></div>
-            </div>
-             <span className="absolute left-[430px] top-[180px] text-[10px] text-slate-500">commits</span>
-
-            {/* Create Pull Request */}
-            <div className="absolute left-[500px] top-[70px]">
-                <Box text="Create Pull request" />
-            </div>
-
-            {/* Discussion */}
-            <div className="absolute left-[640px] top-[150px] flex flex-col items-center">
-                 <div className="flex mb-1 gap-1">
-                    <div className="bg-slate-200 p-1 rounded border border-slate-300">💬</div>
-                 </div>
-                 <span className="text-[10px] font-bold text-slate-700">Discussion</span>
-                 <div className="mt-1 opacity-50"><GroupIcon /></div>
-                 <span className="text-[8px] text-slate-500">Project Community</span>
-            </div>
-
-            {/* Merge */}
-            <div className="absolute left-[720px] top-[70px]">
-                <Box text="Merge or close the PR" />
-            </div>
+            {/* Annotations */}
+            <motion.div 
+                className="absolute left-[380px] top-[180px] bg-white border border-red-200 text-red-500 text-[9px] px-2 py-1 rounded shadow-sm"
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
+            >
+                Request Changes
+            </motion.div>
 
         </div>
 
