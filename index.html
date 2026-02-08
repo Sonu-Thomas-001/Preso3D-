@@ -10,7 +10,8 @@
       body {
         font-family: 'Inter', sans-serif;
         background-color: #f3f4f6;
-        overflow: hidden; /* Prevent scrolling for the full-screen 3D effect */
+        /* Removed overflow: hidden to allow scrolling on the landing page. 
+           The presentation view handles its own overflow. */
       }
       /* Utility for 3D transforms that Tailwind doesn't support out of the box */
       .preserve-3d {
@@ -30,5 +31,6 @@
 </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
   </body>
 </html>
