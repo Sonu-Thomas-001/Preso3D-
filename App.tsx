@@ -1,10 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Slide3DContainer from './components/Slide3DContainer';
 import UIOverlay from './components/UIOverlay';
-import LandingPage from './components/LandingPage';
 import { AnimatePresence } from 'framer-motion';
 
-// Import Slides
+// Website Pages
+import WebsiteLayout from './components/WebsiteLayout';
+import LandingPage from './components/LandingPage';
+import FeaturesPage from './components/pages/FeaturesPage';
+import AboutPage from './components/pages/AboutPage';
+import DocsPage from './components/pages/DocsPage';
+import RoadmapPage from './components/pages/RoadmapPage';
+
+// Slides Import
 import MasteringDevOpsSlide from './components/slides/MasteringDevOpsSlide';
 import AgendaSlide from './components/slides/AgendaSlide';
 import OverviewOneSlide from './components/slides/OverviewOneSlide';
@@ -104,12 +111,16 @@ const SLIDES = [
   ThankYouSlide
 ];
 
+type AppMode = 'website' | 'presentation';
+type WebsitePage = 'home' | 'features' | 'about' | 'docs' | 'roadmap';
+
 const App: React.FC = () => {
   // --- State ---
-  const [view, setView] = useState<'landing' | 'presentation'>('landing');
+  const [mode, setMode] = useState<AppMode>('website');
+  const [websitePage, setWebsitePage] = useState<WebsitePage>('home');
   const [slideIndex, setSlideIndex] = useState(0);
   const [isPresenting, setIsPresenting] = useState(false);
-  const [animKey, setAnimKey] = useState(0); // Force re-render for transitions
+  const [animKey, setAnimKey] = useState(0);
   
   // Presentation Features State
   const [isBlackScreen, setIsBlackScreen] = useState(false);
@@ -141,33 +152,25 @@ const App: React.FC = () => {
   };
 
   // --- Event Listeners ---
-  
-  // Handle Font Scaling for Presentation Mode
   useEffect(() => {
     const handleResize = () => {
-      // Only apply scaling if presenting AND we are NOT on the first slide (index 0)
       if (isPresenting && slideIndex !== 0) {
-        // Calculate scale based on a reference width of 1280px.
         const referenceWidth = 1280;
         const scale = (window.innerWidth / referenceWidth) * 1.10;
-        // Clamp minimum scale to prevent it becoming too small
         const finalScale = Math.max(0.8, scale);
         document.documentElement.style.fontSize = `${finalScale * 100}%`;
       } else {
         document.documentElement.style.fontSize = '';
       }
     };
-
-    handleResize(); // Initial call
+    handleResize();
     window.addEventListener('resize', handleResize);
-    
     return () => {
       window.removeEventListener('resize', handleResize);
       document.documentElement.style.fontSize = '';
     };
   }, [isPresenting, slideIndex]);
 
-  // Handle Fullscreen Change (User presses Esc)
   useEffect(() => {
     const handleFsChange = () => {
       if (!document.fullscreenElement) {
@@ -180,9 +183,8 @@ const App: React.FC = () => {
     return () => document.removeEventListener('fullscreenchange', handleFsChange);
   }, []);
 
-  // Handle Keyboard Navigation & Shortcuts
   useEffect(() => {
-    if (view !== 'presentation') return;
+    if (mode !== 'presentation') return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) return;
@@ -212,14 +214,26 @@ const App: React.FC = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [slideIndex, isPresenting, nextSlide, prevSlide, view]);
+  }, [slideIndex, isPresenting, nextSlide, prevSlide, mode]);
 
-  // Render Landing Page
-  if (view === 'landing') {
-    return <LandingPage onOpenDeck={() => setView('presentation')} />;
+  // --- Render Website Mode ---
+  if (mode === 'website') {
+    return (
+      <WebsiteLayout 
+        currentPage={websitePage} 
+        onNavigate={setWebsitePage}
+        onOpenDeck={() => setMode('presentation')}
+      >
+        {websitePage === 'home' && <LandingPage onOpenDeck={() => setMode('presentation')} onNavigate={setWebsitePage} />}
+        {websitePage === 'features' && <FeaturesPage />}
+        {websitePage === 'about' && <AboutPage />}
+        {websitePage === 'docs' && <DocsPage />}
+        {websitePage === 'roadmap' && <RoadmapPage />}
+      </WebsiteLayout>
+    );
   }
 
-  // Determine Current Slide Component
+  // --- Render Presentation Mode ---
   const CurrentSlideComponent = SLIDES[slideIndex];
 
   return (
@@ -227,23 +241,15 @@ const App: React.FC = () => {
       className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300 perspective-1000 overflow-hidden relative"
       onClick={isPresenting ? nextSlide : undefined}
     >
-      
-      {/* 3D Scene */}
       <div key={animKey} className={`w-full h-full transition-all duration-500 ease-in-out`}>
         <Slide3DContainer isPresenting={isPresenting}>
           <CurrentSlideComponent isPresenting={isPresenting} />
         </Slide3DContainer>
       </div>
 
-      {/* Presentation Overlays (Black/White Screen) */}
-      {isPresenting && isBlackScreen && (
-        <div className="absolute inset-0 bg-black z-[100]" />
-      )}
-      {isPresenting && isWhiteScreen && (
-        <div className="absolute inset-0 bg-white z-[100]" />
-      )}
+      {isPresenting && isBlackScreen && <div className="absolute inset-0 bg-black z-[100]" />}
+      {isPresenting && isWhiteScreen && <div className="absolute inset-0 bg-white z-[100]" />}
 
-      {/* UI Controls */}
       <AnimatePresence>
         {!isPresenting && (
           <UIOverlay 
@@ -252,7 +258,7 @@ const App: React.FC = () => {
             onNext={(e) => { e.stopPropagation(); nextSlide(); }}
             onPrev={(e) => { e.stopPropagation(); prevSlide(); }}
             onPresent={togglePresentationMode}
-            onExit={() => setView('landing')}
+            onExit={() => setMode('website')}
           />
         )}
       </AnimatePresence>
