@@ -1,89 +1,141 @@
 # Preso3D 🌐
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![React](https://img.shields.io/badge/react-19.2.4-61DAFB.svg)
-![Framer Motion](https://img.shields.io/badge/motion-12.0.0-purple.svg)
+![React](https://img.shields.io/badge/React-19.2.4-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.0.0-purple?style=for-the-badge&logo=framer&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-**Preso3D** is a next-generation, browser-based presentation platform that transforms static slides into immersive, cinematic 3D experiences. Built for the modern web, it leverages hardware-accelerated graphics to deliver parallax depth, fluid transitions, and interactive storytelling capabilities that captivate audiences.
+> **"PowerPoint is for information. Preso3D is for impact."**
 
-> *"PowerPoint is for information. Preso3D is for impact."*
+**Preso3D** is a high-fidelity, spatial presentation platform built for the modern web. It abandons the static constraints of traditional slide decks in favor of an immersive, component-driven architecture powered by **React 19** and **CSS3D Transforms**.
 
----
-
-## ✨ Key Features
-
-### 🚀 **Cinematic 3D Experience**
-- **Parallax Depth Engine:** Slides react to mouse movement, creating a tangible sense of depth and layering.
-- **3D Transitions:** Smooth, physics-based transitions between slides using spring animations.
-- **Immersive Mode:** Distraction-free, full-screen presentation capability.
-
-### 🛠 **Modern SaaS Architecture**
-- **Component-Based Slides:** Modular slide architecture allowing for infinite scalability and easy content updates.
-- **Responsive Design:** Fluid layouts that look stunning on desktops, tablets, and large displays.
-- **Presentation Controls:**
-  - **Keyboard Navigation:** Arrow keys, Spacebar, PageUp/Down.
-  - **Focus Tools:** 'B' for Black screen, 'W' for White screen to shift focus to the speaker.
-  - **Cursor Management:** Intelligent cursor hiding during presentation mode.
-
-### 🎨 **Developer Experience**
-- **Built with React 19:** Utilizing the latest concurrent features.
-- **Tailwind CSS:** Utility-first styling for rapid UI development.
-- **Framer Motion:** Production-grade animation library for complex gestures and layout transitions.
+This repository contains the core engine alongside a full production demo deck: *"Mastering DevOps"*.
 
 ---
 
-## 🎮 Controls
+## 💎 Core Philosophy
 
-| Key / Action | Function |
-|--------------|----------|
+Traditional presentations treat slides as static images. Preso3D treats them as **spatial experiences**.
+
+1.  **Spatial Depth**: Using a custom parallax engine, elements exist on different Z-axis planes, reacting to mouse movement to create tangible depth.
+2.  **Native DOM Rendering**: Unlike WebGL canvas renderers (Three.js), Preso3D uses standard HTML/CSS. This guarantees **100% text selectability**, **accessibility (screen readers)**, and **SEO**.
+3.  **Physics-Based Motion**: Transitions are driven by `framer-motion` springs, not linear durations, ensuring animations feel fluid and organic.
+
+---
+
+## 🚀 Features
+
+### 🎨 The Visual Engine
+- **Hardware Accelerated CSS3D**: silky smooth 60fps animations on standard hardware.
+- **Intelligent Parallax**: Backgrounds, content, and floating elements move at different velocities based on cursor position.
+- **Cinematic Transitions**: Staggered entrances and exit animations orchestrated automatically.
+
+### 🛠 Developer Experience
+- **Everything is a Component**: Slides are React components. Use `useState`, `useEffect`, or import any npm package directly into your slide.
+- **Tailwind Styling**: Rapidly prototype layouts using utility classes.
+- **Zero Config Routing**: A simple array-based registry handles slide order and navigation.
+
+### 🎮 Presentation Controls
+| Key | Action |
+| :--- | :--- |
 | `→` / `Space` | Next Slide |
 | `←` | Previous Slide |
-| `B` | Toggle Black Screen (Speaker focus) |
-| `W` | Toggle White Screen (Illumination) |
-| `Esc` | Exit Presentation Mode |
-| `Mouse Move` | 3D Parallax Tilt (Standard Mode) |
+| `B` | **Blackout Mode** (Focus on speaker) |
+| `W` | **Whiteout Mode** (Illumination) |
+| `Esc` | Exit Fullscreen |
+| `F` | Toggle Fullscreen |
 
 ---
 
-## 🏗️ Technical Overview
+## 📦 Project Structure
 
-Preso3D avoids heavy 3D libraries (like Three.js) for standard slides, instead opting for performant CSS3D transforms managed by Framer Motion. This ensures:
-1.  **Lower Bundle Size:** Faster load times compared to WebGL-heavy decks.
-2.  **Crisp Text Rendering:** Native DOM text rendering for perfect accessibility and SEO.
-3.  **Ease of Customization:** Slides are just React components; if you know HTML/CSS, you can build a slide.
+The project is structured to separate the core engine from the content.
 
-### Directory Structure
-
-```
+```bash
 src/
 ├── components/
-│   ├── slides/          # Individual slide components
-│   ├── Slide3DContainer # The parallax physics engine
-│   ├── SlideLayout      # HOC for consistent branding/layout
-│   └── UIOverlay        # Navigation controls
-├── App.tsx              # Main routing and state logic
-└── types.ts             # TypeScript definitions
+│   ├── slides/            # 📍 Content: Individual Slide Components
+│   │   ├── MasteringDevOpsSlide.tsx
+│   │   ├── GitFlowWorkflowSlide.tsx
+│   │   └── ... (40+ demo slides)
+│   ├── pages/             # Website Pages (Landing, About, Docs)
+│   ├── Slide3DContainer   # ⚙️ Engine: Parallax & Tilt Logic
+│   ├── SlideLayout        # 🎨 UI: Consistent Layout Wrapper
+│   └── UIOverlay          # 🎮 UI: Navigation Controls
+├── App.tsx                # Routing & State Management
+└── types.ts               # TypeScript Interfaces
 ```
 
 ---
 
-## 🚀 Roadmap
+## ⚡ Quick Start
 
-- [ ] **Visual Editor:** Drag-and-drop slide builder for non-technical users.
-- [ ] **Cloud Sync:** Real-time collaboration via WebSockets.
-- [ ] **Asset Library:** Integrated Unsplash and Icon search.
-- [ ] **Export:** PDF and Video export pipelines.
-- [ ] **Themes:** One-click theme switching (Dark/Light/Corporate).
+Preso3D is built on modern web standards.
+
+### Prerequisites
+- Node.js 18+
+- NPM or Yarn
+
+### Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/your-username/preso3d.git
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the development server
+npm start
+```
 
 ---
 
-## 📄 License
+## 🖌 Creating a Slide
 
-This project is open source and available under the [MIT License](LICENSE).
+A slide is simply a React Functional Component exported into the `SLIDES` array in `App.tsx`.
+
+```tsx
+import React from 'react';
+import SlideLayout from '../SlideLayout';
+import { motion } from 'framer-motion';
+
+export const MyNewSlide = ({ isPresenting }) => {
+  return (
+    <SlideLayout title="My Big Idea" id="01" isPresenting={isPresenting}>
+      <div className="flex gap-4">
+        <motion.div 
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          className="bg-blue-500 p-10 rounded-xl"
+        >
+          I can use standard Tailwind classes!
+        </motion.div>
+      </div>
+    </SlideLayout>
+  );
+};
+```
+
+---
+
+## 🗺 Roadmap
+
+- [x] **Core Engine:** CSS3D Parallax & Physics Transitions
+- [x] **React 19 Integration:** Concurrent rendering support
+- [x] **Dark Mode:** Deep space aesthetic
+- [ ] **Visual Editor:** Drag-and-drop builder
+- [ ] **Remote Control:** WebSockets for phone-based control
+- [ ] **PDF Export:** Server-side rendering to static assets
+
+---
+
+## 📜 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
 <p align="center">
-  Built with ❤️ by the Preso3D Team
+  <strong>Preso3D</strong> — Built by <a href="https://sonuthomas.vercel.app/">Sonu Thomas</a>.
 </p>
